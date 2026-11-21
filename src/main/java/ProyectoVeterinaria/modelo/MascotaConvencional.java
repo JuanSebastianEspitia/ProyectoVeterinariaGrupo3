@@ -1,0 +1,46 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package ProyectoVeterinaria.modelo;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author maikol
+ */
+public class MascotaConvencional extends Mascota {
+    private String raza;
+    private List<Vacuna> registroVacunas = new ArrayList<>();
+
+    public MascotaConvencional(String raza, String nombre, String edad, String peso, Dueño dueño) {
+        super(nombre, edad, peso, dueño);
+        this.raza = raza;
+    }
+
+    @Override
+    public float calcularPago() {
+    float totalMascota;
+    totalMascota=this.getValorBase() + this.getHistorialClinico().obtenerConsultas().getLast().calcularValorBiologico();
+        return totalMascota;
+}
+    public void registrarVacuna(Vacuna vacuna){
+        registroVacunas.add(vacuna);
+    }
+
+    
+    
+    
+
+    public String getRaza() {
+        return raza;
+    }
+
+    public List<Vacuna> getRegistroVacunas() {
+        return registroVacunas;
+    }
+    
+}
+
