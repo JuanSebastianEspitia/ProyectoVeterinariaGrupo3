@@ -75,4 +75,4 @@ public class ComprobantePago {
                 "\n TOTAL: $"+this.getConsulta().obtenerTotalTotal());
     }
 }
-}
+
