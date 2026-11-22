@@ -13,11 +13,12 @@ import java.util.List;
  */
 public class MascotaConvencional extends Mascota {
     private String raza;
-    private List<Vacuna> registroVacunas = new ArrayList<>();
+    private List<Vacuna> registroVacunas;
 
-    public MascotaConvencional(String raza, String nombre, String edad, String peso, Dueño dueño) {
-        super(nombre, edad, peso, dueño);
+    public MascotaConvencional(String raza, String nombre, String edad, String peso, String genero) {
+        super(nombre, edad, peso, genero);
         this.raza = raza;
+        this.registroVacunas=new ArrayList<>();
     }
 
     @Override

@@ -13,8 +13,8 @@ public class MascotaExotica extends Mascota {
     private float recargoExotica = 0.25f;
     private String permisoAmbientalICA;
 
-    public MascotaExotica(String permisoAmbientalICA, String nombre, String edad, String peso, Dueño dueño) {
-        super(nombre, edad, peso, dueño);
+    public MascotaExotica(String permisoAmbientalICA, String nombre, String edad, String peso, String genero) {
+        super(nombre, edad, peso, genero);
         this.permisoAmbientalICA = permisoAmbientalICA;
     }
 

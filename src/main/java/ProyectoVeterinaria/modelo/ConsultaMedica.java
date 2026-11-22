@@ -70,7 +70,14 @@ public class ConsultaMedica {
         return String.valueOf(costoSedacion);
     }
     
-    
+    public String requirioSedacion(){
+        String mensaje="";
+        if(requiereSedacion)
+            mensaje="Si";
+        else
+            mensaje="No";
+        return mensaje;
+    }
     
     
     
@@ -125,12 +132,26 @@ public class ConsultaMedica {
     
     
     public String obtenerVacunas(){
-        String mensaje="";
+        String mensaje="NO";
         for (Vacuna v : this.vacunasAplicadas) {
            mensaje+="\n"+v.getNombreVacuna()+" $"+v.getValorVacuna();
         }
         return mensaje;
     }
     
+    public String mostrarConsulta(){
+        String mensaje="";
+        
+        mensaje="\n FECHA DE LA CONSULTA: "+this.fecha.toString()+
+                "\n DATOS DEL DUEÑO: "+this.cita.getDueño().getNombre()+"-"+this.cita.getDueño().getDocumento()+"-"+this.cita.getDueño().getTelefono()+"-"+this.cita.getDueño().getCorreo()+
+                "\n DATOS DE LA MASCOTA: "+this.cita.getMascota().getNombre()+"-"+this.cita.getMascota().getPeso()+" Kg-"+this.cita.getMascota().getEdad()+" Años -"+this.cita.getMascota().getGenero()+
+                "\n VETERINARIO:"+this.veterinario.getNombre()+
+                "\n DIAGNOSTICO: "+this.diagnostico+
+                "\n APLICACIÓN DE SEDACIÓN: "+this.requirioSedacion()+
+                "\n VACUNAS: "+this.obtenerVacunas();
+                
+                
+        return mensaje;
+    }
     
 }

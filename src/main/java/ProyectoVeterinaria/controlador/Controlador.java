@@ -5,6 +5,7 @@
 package ProyectoVeterinaria.controlador;
 
 import ProyectoVeterinaria.modelo.Dueño;
+import ProyectoVeterinaria.modelo.MascotaConvencional;
 import ProyectoVeterinaria.modelo.Recepcionista;
 import ProyectoVeterinaria.modelo.Registro;
 import ProyectoVeterinaria.modelo.Veterinario;
@@ -78,7 +79,7 @@ public class Controlador {
                this.vistaVeterinaria.getTxtSueldoVeterinario().isEmpty()||
                this.vistaVeterinaria.getTxtTarjetaProfesionalVeterinario().isEmpty()||
                this.vistaVeterinaria.getTxtEspecialidadVeterinario().isEmpty())
-                throw new IllegalArgumentException("ERROR: debe de llenar todos los campos");
+                throw new IllegalArgumentException("ERROR: debe de completar todos los campos");
             else{    
             String correoVeterinario=this.vistaVeterinaria.getTxtCorreoVeterinario();
             String nombreVeterinario=this.vistaVeterinaria.getTxtNombreVeterinario();
@@ -125,7 +126,7 @@ public class Controlador {
                this.vistaVeterinaria.getTxtNombreDueño().isEmpty()||
                this.vistaVeterinaria.getTxtTelefonoDueño().isEmpty()||
                this.vistaVeterinaria.getTxtDocumentoDueño().isEmpty())
-                throw new IllegalArgumentException("ERROR: debe de llenar todos los campos");
+                throw new IllegalArgumentException("ERROR: debe de completar todos los campos");
                 
             String correoDueño=this.vistaVeterinaria.getTxtCorreoDueño();
             String nombreDueño=this.vistaVeterinaria.getTxtNombreDueño();
@@ -136,6 +137,8 @@ public class Controlador {
             Dueño dueño=new Dueño(nombreDueño,documentoDueño,correoDueño, telefonoDueño);
             this.registro.añadirDueño(dueño);
             this.vistaVeterinaria.getCbDueñoMascota().removeAllItems();
+            this.vistaVeterinaria.getCbDueñoHorario().removeAllItems();
+            this.vistaVeterinaria.getCbDueñoHistorialClinico().removeAllItems();
             for(Dueño d: registro.getDueños()){
                 this.vistaVeterinaria.getCbDueñoMascota().addItem(d.getNombre()+"-"+d.getCorreo()+"-"+d.getTelefono()+"-"+d.getDocumento());
                 this.vistaVeterinaria.getCbDueñoHorario().addItem(d.getNombre()+"-"+d.getCorreo()+"-"+d.getTelefono()+"-"+d.getDocumento());
@@ -157,7 +160,7 @@ public class Controlador {
             try {
                 if (this.vistaVeterinaria.getTxtVacuna().getText().isEmpty() ||
                     this.vistaVeterinaria.getTxtPrecioVacuna().getText().isEmpty()) {
-                    throw new IllegalArgumentException("ERROR: debe de llenar todos los campos");
+                    throw new IllegalArgumentException("ERROR: debe de completar todos los campos");
                 }
 
                 String nombreVacuna = this.vistaVeterinaria.getTxtVacuna().getText();
@@ -167,10 +170,13 @@ public class Controlador {
                 this.registro.añadirVacuna(vacuna);
 
                 DefaultListModel<String> modeloLista = new DefaultListModel<>();
+                DefaultListModel<String> modeloListaVacunasAplicadas = new DefaultListModel<>();
                 for (Vacuna v : registro.getVacunas()) {
                     modeloLista.addElement(v.getNombreVacuna()+ " - $" + (int) v.getValorVacuna());
+                    modeloListaVacunasAplicadas.addElement(v.getNombreVacuna()+ " - $" + (int) v.getValorVacuna());
                 }
                 this.vistaVeterinaria.getLstVacunasDisponibles().setModel(modeloLista);
+                this.vistaVeterinaria.getLstVacunasAplicadas().setModel(modeloListaVacunasAplicadas);
 
                 this.vistaVeterinaria.getTxtVacuna().setText("");
                 this.vistaVeterinaria.getTxtPrecioVacuna().setText("");
@@ -182,6 +188,34 @@ public class Controlador {
             } catch (IllegalArgumentException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
+        });
+        
+        
+        
+        
+        this.vistaVeterinaria.addAgregarActionListenerRegistrarMascota(e-> {
+            try{
+                String nombre=this.vistaVeterinaria.getTxtNombreMascota();
+                    String peso=this.vistaVeterinaria.getTxtPesoMascota();
+                    String genero=this.vistaVeterinaria.getCbGeneroMascota().getSelectedItem().toString();
+                    String edad=this.vistaVeterinaria.getTxtPesoMascota();
+                if(this.vistaVeterinaria.getCbTipoMascota().getSelectedItem().toString().equalsIgnoreCase("convencional")){
+                    this.vistaVeterinaria.habilitarConvencional();
+                    String vacunas=this.vistaVeterinaria.getTxtaVacunasMascota();
+                    String raza=this.vistaVeterinaria.getTxtRazaMascota();
+                    MascotaConvencional convencional=new MascotaConvencional(raza, nombre, edad, peso, genero);
+                    
+                
+                    }
+                
+                
+                throw new IllegalArgumentException("ERROR: debe de completar todos los campos");
+                
+            }catch(NumberFormatException errorNumero){
+                
+            }catch(IllegalArgumentException err){
+            
+        }
         });
         
        

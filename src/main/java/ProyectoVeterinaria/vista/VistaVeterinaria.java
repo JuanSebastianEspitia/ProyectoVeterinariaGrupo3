@@ -7,6 +7,7 @@ package ProyectoVeterinaria.vista;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.DefaultListModel;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JTextArea;
@@ -32,13 +33,25 @@ public class VistaVeterinaria extends javax.swing.JFrame {
         this.txtaVacunasMascota.setWrapStyleWord(true);
         this.lstVacunasDisponibles.setModel(vacunasDisponibles);
         this.lstVacunasAplicadas.setModel(vacunasAplicadas);
-   
-       
+        
+        //Inhabilitar campos automaticamente
+        this.txtVacuna.setEnabled(false);
+       this.txtCitesMascota.setEnabled(false);
+       this.txtRazaMascota.setEnabled(false);
         
     }
 
     
+    //HABILITAR CAMPOS SI ES CONVENCIONAL O EXOTICA
     
+    public void habilitarConvencional(){
+        this.txtaVacunasMascota.setEnabled(true);
+        this.txtRazaMascota.setEnabled(false);
+    }
+    
+    public void habilitarExotiva(){
+        this.txtCitesMascota.setEnabled(false);
+    }
     //VARIABLES DEL PANEL EMPLEADOS
 
     public String getTxtCorreoRecepcionista() {
@@ -251,10 +264,22 @@ public class VistaVeterinaria extends javax.swing.JFrame {
     public JComboBox<String> getCbRecepcionista() {
         return cbRecepcionista;
     }
+
+    public JComboBox<String> getCbTipoMascota() {
+        return cbTipoMascota;
+    }
+    
+    
     
     public void addAgregarActionListenerRegistrarDueño(ActionListener listener){
         this.btnRegistrarDueño.addActionListener(listener);
     }
+    
+    
+    public void addAgregarActionListenerRegistrarMascota(ActionListener listener){
+        this.btnRegistrarDueño.addActionListener(listener);
+    }
+    
     
     // VARIABLES DEL PANEL VACUNAS 
 
@@ -273,18 +298,15 @@ public class VistaVeterinaria extends javax.swing.JFrame {
     public void setTxtVacuna(JTextField txtVacuna) {
         this.txtVacuna = txtVacuna;
     }
-
-    public JList<String> getLstVacunasDisponibles() {
-        return lstVacunasDisponibles;
-    }
-
-    public void setLstVacunasDisponibles(JList<String> lstVacunasDisponibles) {
-        this.lstVacunasDisponibles = lstVacunasDisponibles;
-    }
     
     public void addAgregarActionListenerRegistrarvacuna(ActionListener listener){
         this.btnAgregarVacuna.addActionListener(listener);
     }
+    
+    
+    
+    
+    
     
     
     
@@ -306,7 +328,13 @@ public class VistaVeterinaria extends javax.swing.JFrame {
         return lstVacunasAplicadas;
     }
     
-    
+    public JList<String> getLstVacunasDisponibles() {
+        return lstVacunasDisponibles;
+    }
+
+    public void setLstVacunasDisponibles(JList<String> lstVacunasDisponibles) {
+        this.lstVacunasDisponibles = lstVacunasDisponibles;
+    }
     
     
     

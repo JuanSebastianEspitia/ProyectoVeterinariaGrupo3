@@ -15,14 +15,14 @@ public abstract class Mascota {
     private String nombre;
     private String edad;
     private String peso;
-    private Dueño dueño;
+    private String genero;
     private HistorialClinico historialClinico;
 
-    public Mascota(String nombre, String edad, String peso, Dueño dueño) {
+    public Mascota(String nombre, String edad, String peso, String genero) {
         this.nombre = nombre;
         this.edad = edad;
         this.peso = peso;
-        this.dueño = dueño;
+        this.genero=genero;
         this.historialClinico = new HistorialClinico();
     }
     
@@ -36,13 +36,16 @@ public abstract class Mascota {
         return edad;
     }
 
+    public String getGenero() {
+        return genero;
+    }
+    
+    
+
     public String getPeso() {
         return peso;
     }
 
-    public Dueño getDueño() {
-        return dueño;
-    }
 
     public float getValorBase() {
         return valorBase;
