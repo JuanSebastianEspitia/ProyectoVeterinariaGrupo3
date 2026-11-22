@@ -92,6 +92,8 @@ public class Controlador {
             this.vistaVeterinaria.setTxtNombreVeterinario("");
             this.vistaVeterinaria.setTxtSueldoVeterinario("");
             this.vistaVeterinaria.setTxtTelefonoVeterinario("");
+            this.vistaVeterinaria.setTxtTarjetaProfesionalVeterinario("");
+            this.vistaVeterinaria.setTxtEspecialidadVeterinario("");
             JOptionPane.showMessageDialog(null, "VETERINARIO "+veterinario.getNombre().toUpperCase()+" DE TARJETA "+veterinario.getTarjetaProfesional()+"\n Y ESPECIALIDAD "
                     +veterinario.getEspecialidad() +" FUE AGREGADO CORRECTAMENTE");
         } catch(NumberFormatException errorNumero){
