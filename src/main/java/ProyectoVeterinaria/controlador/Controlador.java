@@ -79,7 +79,7 @@ public class Controlador {
                this.vistaVeterinaria.getTxtTarjetaProfesionalVeterinario().isEmpty()||
                this.vistaVeterinaria.getTxtEspecialidadVeterinario().isEmpty())
                 throw new IllegalArgumentException("ERROR: debe de llenar todos los campos");
-                
+            else{    
             String correoVeterinario=this.vistaVeterinaria.getTxtCorreoVeterinario();
             String nombreVeterinario=this.vistaVeterinaria.getTxtNombreVeterinario();
             String telefonoVeterinario=this.vistaVeterinaria.getTxtTelefonoVeterinario();
@@ -92,6 +92,10 @@ public class Controlador {
             
             Veterinario veterinario=new Veterinario(especialidadVeterinario,tarjetaProfesional,nombreVeterinario,documentoVeterinario,correoVeterinario,telefonoVeterinario,sueldoVeterinario);
             this.registro.añadirVeterinario(veterinario);
+            this.vistaVeterinaria.getCbVeterinario().removeAllItems();
+            for(Veterinario ve: registro.getVeterinarios()){
+                this.vistaVeterinaria.getCbVeterinario().addItem(ve.getNombre()+"-"+ve.getCorreo()+"-"+ve.getTelefono()+"-"+ve.getDocumento()+"-"+ve.getTarjetaProfesional()+"-"+ve.getEspecialidad());
+            }
             this.vistaVeterinaria.setTxtCorreoVeterinario("");
             this.vistaVeterinaria.setTxtDocumentoVeterinario("");
             this.vistaVeterinaria.setTxtNombreVeterinario("");
@@ -99,8 +103,10 @@ public class Controlador {
             this.vistaVeterinaria.setTxtTelefonoVeterinario("");
             this.vistaVeterinaria.setTxtTarjetaProfesionalVeterinario("");
             this.vistaVeterinaria.setTxtEspecialidadVeterinario("");
-            JOptionPane.showMessageDialog(null, "VETERINARIO "+veterinario.getNombre().toUpperCase()+" DE TARJETA "+veterinario.getTarjetaProfesional()+"\n Y ESPECIALIDAD "
-                    +veterinario.getEspecialidad() +" FUE AGREGADO CORRECTAMENTE");
+            JOptionPane.showMessageDialog(null, "VETERINARIO "+veterinario.getNombre().toUpperCase()+" DE TARJETA "+veterinario.getTarjetaProfesional().toUpperCase()+"\n Y ESPECIALIDAD "
+                    +veterinario.getEspecialidad().toUpperCase() +" FUE AGREGADO CORRECTAMENTE");
+            
+            }
         } catch(NumberFormatException errorNumero){
             JOptionPane.showMessageDialog(null, "ERROR: el sueldo debe ser un número válido");
         }
@@ -132,6 +138,8 @@ public class Controlador {
             this.vistaVeterinaria.getCbDueñoMascota().removeAllItems();
             for(Dueño d: registro.getDueños()){
                 this.vistaVeterinaria.getCbDueñoMascota().addItem(d.getNombre()+"-"+d.getCorreo()+"-"+d.getTelefono()+"-"+d.getDocumento());
+                this.vistaVeterinaria.getCbDueñoHorario().addItem(d.getNombre()+"-"+d.getCorreo()+"-"+d.getTelefono()+"-"+d.getDocumento());
+                this.vistaVeterinaria.getCbDueñoHistorialClinico().addItem(d.getNombre()+"-"+d.getCorreo()+"-"+d.getTelefono()+"-"+d.getDocumento());
             }
             this.vistaVeterinaria.setTxtCorreoDueño("");
             this.vistaVeterinaria.setTxtDocumentoDueño("");
