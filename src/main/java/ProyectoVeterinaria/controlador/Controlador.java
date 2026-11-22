@@ -5,7 +5,9 @@
 package ProyectoVeterinaria.controlador;
 
 import ProyectoVeterinaria.modelo.Dueño;
+import ProyectoVeterinaria.modelo.Mascota;
 import ProyectoVeterinaria.modelo.MascotaConvencional;
+import ProyectoVeterinaria.modelo.MascotaExotica;
 import ProyectoVeterinaria.modelo.Recepcionista;
 import ProyectoVeterinaria.modelo.Registro;
 import ProyectoVeterinaria.modelo.Veterinario;
@@ -190,39 +192,97 @@ public class Controlador {
             }
         });
         
-        
-        
-        
-        this.vistaVeterinaria.addAgregarActionListenerRegistrarMascota(e-> {
-            try{
-                String nombre=this.vistaVeterinaria.getTxtNombreMascota();
-                    String peso=this.vistaVeterinaria.getTxtPesoMascota();
-                    String genero=this.vistaVeterinaria.getCbGeneroMascota().getSelectedItem().toString();
-                    String edad=this.vistaVeterinaria.getTxtPesoMascota();
-                if(this.vistaVeterinaria.getCbTipoMascota().getSelectedItem().toString().equalsIgnoreCase("convencional")){
-                    this.vistaVeterinaria.habilitarConvencional();
-                    String vacunas=this.vistaVeterinaria.getTxtaVacunasMascota();
-                    String raza=this.vistaVeterinaria.getTxtRazaMascota();
-                    MascotaConvencional convencional=new MascotaConvencional(raza, nombre, edad, peso, genero);
-                    
-                
-                    }
-                
-                
-                throw new IllegalArgumentException("ERROR: debe de completar todos los campos");
-                
-            }catch(NumberFormatException errorNumero){
-                
-            }catch(IllegalArgumentException err){
-            
+        this.vistaVeterinaria.addActionListenerTipoMascota(e -> {
+            String tipo = this.vistaVeterinaria.getCbTipoMascota().getSelectedItem().toString();
+                if (tipo.equalsIgnoreCase("convencional")) {
+            this.vistaVeterinaria.habilitarConvencional();
+            }else {
+            this.vistaVeterinaria.habilitarExotica();
+    }
+});
+        this.vistaVeterinaria.addActionListenerDueñoHorario(e->{
+    this.vistaVeterinaria.getCbMascotaHorario().removeAllItems();
+    int indiceDueñoHorario=this.vistaVeterinaria.getCbDueñoHorario().getSelectedIndex();
+    if(indiceDueñoHorario>=0){
+        for(Mascota m: this.registro.getDueños().get(indiceDueñoHorario).getMascotas()){
+            this.vistaVeterinaria.getCbMascotaHorario().addItem(m.getNombre());
         }
+    }
+});
+
+        this.vistaVeterinaria.addActionListenerDueñoHistorialClinico(e->{
+    this.vistaVeterinaria.getCbMascotaHistorialClinico().removeAllItems();
+    int indiceDueñoHistorial=this.vistaVeterinaria.getCbDueñoHistorialClinico().getSelectedIndex();
+    if(indiceDueñoHistorial>=0){
+        for(Mascota m: this.registro.getDueños().get(indiceDueñoHistorial).getMascotas()){
+            this.vistaVeterinaria.getCbMascotaHistorialClinico().addItem(m.getNombre());
+        }
+    }
+});
+        this.vistaVeterinaria.addAgregarActionListenerRegistrarMascota(e -> {
+    try {
+        int indiceDueño = this.vistaVeterinaria.getCbDueñoMascota().getSelectedIndex();
+        if (indiceDueño < 0)
+            throw new IllegalArgumentException("ERROR: primero debe registrar y seleccionar un dueño");
+        
+        boolean esConvencional=this.vistaVeterinaria.getCbTipoMascota().getSelectedItem().toString().equalsIgnoreCase("CONVENCIONAL");
+        
+        if(this.vistaVeterinaria.getTxtNombreMascota().isEmpty()||
+       this.vistaVeterinaria.getTxtEdadMascota().isEmpty()||
+       this.vistaVeterinaria.getTxtPesoMascota().isEmpty()||
+       (esConvencional && this.vistaVeterinaria.getTxtRazaMascota().isEmpty())||
+       (!esConvencional && this.vistaVeterinaria.getTxtCitesMascota().isEmpty()))
+        throw new IllegalArgumentException("ERROR: debe de completar todos los campos");
+
+        String nombre=this.vistaVeterinaria.getTxtNombreMascota();
+        String edad=this.vistaVeterinaria.getTxtEdadMascota();
+        String peso=this.vistaVeterinaria.getTxtPesoMascota();
+        String genero=this.vistaVeterinaria.getCbGeneroMascota().getSelectedItem().toString();
+
+        
+        Mascota mascota;
+        String tipo = this.vistaVeterinaria.getCbTipoMascota().getSelectedItem().toString();
+
+        if (tipo.equalsIgnoreCase("convencional")) {
+            String raza = this.vistaVeterinaria.getTxtRazaMascota();
+            
+            mascota = new MascotaConvencional(raza, nombre, edad, peso, genero);
+        } else {
+            String cites = this.vistaVeterinaria.getTxtCitesMascota();
+            mascota = new MascotaExotica(cites, nombre, edad, peso, genero);
+        }
+        
+        Dueño dueño = this.registro.getDueños().get(indiceDueño);
+        dueño.agregarMascota(mascota);
+            this.vistaVeterinaria.getCbMascotaHorario().removeAllItems();
+            int indiceDueñoHorario=this.vistaVeterinaria.getCbDueñoHorario().getSelectedIndex();
+        if(indiceDueñoHorario>=0){
+            for(Mascota m: this.registro.getDueños().get(indiceDueñoHorario).getMascotas()){
+            this.vistaVeterinaria.getCbMascotaHorario().addItem(m.getNombre());
+    }
+}
+
+            this.vistaVeterinaria.getCbMascotaHistorialClinico().removeAllItems();
+            int indiceDueñoHistorial=this.vistaVeterinaria.getCbDueñoHistorialClinico().getSelectedIndex();
+        if(indiceDueñoHistorial>=0){
+            for(Mascota m: this.registro.getDueños().get(indiceDueñoHistorial).getMascotas()){
+            this.vistaVeterinaria.getCbMascotaHistorialClinico().addItem(m.getNombre());
+    }
+}
+        this.vistaVeterinaria.setTxtNombreMascota("");
+        this.vistaVeterinaria.setTxtEdadMascota("");
+        this.vistaVeterinaria.setTxtPesoMascota("");
+        this.vistaVeterinaria.setTxtRazaMascota("");
+        this.vistaVeterinaria.setTxtCitesMascota("");
+        this.vistaVeterinaria.setTxtaVacunasMascota("");
+
+        JOptionPane.showMessageDialog(null, "MASCOTA " + nombre.toUpperCase()+ " FUE AGREGADA AL DUEÑO " + dueño.getNombre().toUpperCase());
+
+    } catch (NumberFormatException errorNumero) {
+        JOptionPane.showMessageDialog(null, "ERROR: la edad y el peso deben ser números válidos");
+    } catch (IllegalArgumentException ex) {
+        JOptionPane.showMessageDialog(null, ex.getMessage());
+    }
         });
-        
-       
-        
-        
-        
-        
-        
     }
 }

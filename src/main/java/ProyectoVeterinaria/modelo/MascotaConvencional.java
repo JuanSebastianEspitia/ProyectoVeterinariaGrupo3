@@ -30,11 +30,6 @@ public class MascotaConvencional extends Mascota {
     public void registrarVacuna(Vacuna vacuna){
         registroVacunas.add(vacuna);
     }
-
-    
-    
-    
-
     public String getRaza() {
         return raza;
     }

@@ -35,9 +35,9 @@ public class VistaVeterinaria extends javax.swing.JFrame {
         this.lstVacunasAplicadas.setModel(vacunasAplicadas);
         
         //Inhabilitar campos automaticamente
-        this.txtVacuna.setEnabled(false);
+        this.txtVacuna.setEnabled(true);
        this.txtCitesMascota.setEnabled(false);
-       this.txtRazaMascota.setEnabled(false);
+       this.txtRazaMascota.setEnabled(true);
         
     }
 
@@ -46,11 +46,17 @@ public class VistaVeterinaria extends javax.swing.JFrame {
     
     public void habilitarConvencional(){
         this.txtaVacunasMascota.setEnabled(true);
-        this.txtRazaMascota.setEnabled(false);
+        this.txtRazaMascota.setEnabled(true);
+        this.txtCitesMascota.setEnabled(false);
+        this.txtCitesMascota.setText("");
     }
     
-    public void habilitarExotiva(){
-        this.txtCitesMascota.setEnabled(false);
+    public void habilitarExotica(){
+        this.txtCitesMascota.setEnabled(true);
+        this.txtRazaMascota.setEnabled(false);
+        this.txtRazaMascota.setText("");
+        this.txtaVacunasMascota.setEnabled(false);
+        this.txtaVacunasMascota.setText("");
     }
     //VARIABLES DEL PANEL EMPLEADOS
 
@@ -248,6 +254,9 @@ public class VistaVeterinaria extends javax.swing.JFrame {
     public JComboBox<String> getCbDueñoHorario() {
         return cbDueñoHorario;
     }
+    public JComboBox<String> getCbMascotaHorario() {
+        return cbMascotaHorario;
+    }
 
     public JComboBox<String> getCbDueñoMascota() {
         return cbDueñoMascota;
@@ -268,6 +277,9 @@ public class VistaVeterinaria extends javax.swing.JFrame {
     public JComboBox<String> getCbTipoMascota() {
         return cbTipoMascota;
     }
+    public void addActionListenerDueñoHorario(ActionListener listener){
+        this.cbDueñoHorario.addActionListener(listener);
+    }
     
     
     
@@ -275,9 +287,11 @@ public class VistaVeterinaria extends javax.swing.JFrame {
         this.btnRegistrarDueño.addActionListener(listener);
     }
     
-    
+    public void addActionListenerTipoMascota(ActionListener listener){
+        this.cbTipoMascota.addActionListener(listener);
+    }
     public void addAgregarActionListenerRegistrarMascota(ActionListener listener){
-        this.btnRegistrarDueño.addActionListener(listener);
+        this.btnRegistrarMascota.addActionListener(listener);
     }
     
     
@@ -319,6 +333,9 @@ public class VistaVeterinaria extends javax.swing.JFrame {
     public JComboBox<String> getCbDueñoHistorialClinico() {
         return cbDueñoHistorialClinico;
     }
+    public JComboBox<String> getCbMascotaHistorialClinico() {
+        return cbMascotaHistorialClinico;
+    }
 
     public JComboBox<String> getCbCita() {
         return cbCita;
@@ -336,7 +353,9 @@ public class VistaVeterinaria extends javax.swing.JFrame {
         this.lstVacunasDisponibles = lstVacunasDisponibles;
     }
     
-    
+    public void addActionListenerDueñoHistorialClinico(ActionListener listener){
+        this.cbDueñoHistorialClinico.addActionListener(listener);
+    }
     
     
     
