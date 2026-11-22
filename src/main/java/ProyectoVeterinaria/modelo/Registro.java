@@ -15,11 +15,13 @@ public class Registro {
     private List<Recepcionista> recepcionistas;
     private List<Dueño> dueños;
     private List<Veterinario> veterinarios;
+    private List<Vacuna> vacunas;
 
     public Registro() {
         this.recepcionistas=new ArrayList<>();
         this.dueños=new ArrayList<>();
         this.veterinarios=new ArrayList<>();
+        this.vacunas=new ArrayList<>();
     }
 
     public List<Recepcionista> getRecepcionistas() {
@@ -33,7 +35,10 @@ public class Registro {
     public List<Veterinario> getVeterinarios() {
         return veterinarios;
     }
-    
+
+    public List<Vacuna> getVacunas() {
+        return vacunas;
+    }
     
     public void añadirVeterinario(Veterinario veterinario){
         this.veterinarios.add(veterinario);
@@ -45,5 +50,9 @@ public class Registro {
     
     public void añadirRecepcionista(Recepcionista recepcionista){
         this.recepcionistas.add(recepcionista);
+    }
+    
+    public void añadirVacuna(Vacuna vacuna){
+        this.vacunas.add(vacuna);
     }
 }
