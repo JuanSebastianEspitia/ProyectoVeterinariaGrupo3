@@ -4,6 +4,7 @@
  */
 package ProyectoVeterinaria.controlador;
 
+import ProyectoVeterinaria.modelo.Dueño;
 import ProyectoVeterinaria.modelo.Recepcionista;
 import ProyectoVeterinaria.modelo.Registro;
 import ProyectoVeterinaria.modelo.Veterinario;
@@ -108,7 +109,37 @@ public class Controlador {
         
         
         
+        this.vistaVeterinaria.addAgregarActionListenerRegistrarDueño(e->{
+            try{
+            if(this.vistaVeterinaria.getTxtCorreoDueño().isEmpty()||
+               this.vistaVeterinaria.getTxtNombreDueño().isEmpty()||
+               this.vistaVeterinaria.getTxtTelefonoDueño().isEmpty()||
+               this.vistaVeterinaria.getTxtDocumentoDueño().isEmpty())
+                throw new IllegalArgumentException("ERROR: debe de llenar todos los campos");
+                
+            String correoDueño=this.vistaVeterinaria.getTxtCorreoDueño();
+            String nombreDueño=this.vistaVeterinaria.getTxtNombreDueño();
+            String telefonoDueño=this.vistaVeterinaria.getTxtTelefonoDueño();
+            String documentoDueño=this.vistaVeterinaria.getTxtDocumentoDueño();
+            
+            
+            Dueño dueño=new Dueño(nombreDueño,documentoDueño,correoDueño, telefonoDueño);
+            this.registro.añadirDueño(dueño);
+            this.vistaVeterinaria.getCbDueñoMascota().removeAllItems();
+            for(Dueño d: registro.getDueños()){
+                this.vistaVeterinaria.getCbDueñoMascota().addItem(d.getNombre()+"-"+d.getCorreo()+"-"+d.getTelefono()+"-"+d.getDocumento());
+            }
+            this.vistaVeterinaria.setTxtCorreoDueño("");
+            this.vistaVeterinaria.setTxtDocumentoDueño("");
+            this.vistaVeterinaria.setTxtNombreDueño("");
+            this.vistaVeterinaria.setTxtTelefonoDueño("");
+            JOptionPane.showMessageDialog(null, "DUEÑO "+dueño.getNombre().toUpperCase()+" FUE AGREGADO CORRECTAMENTE");
         
+        }
+          catch(IllegalArgumentException ex){
+              JOptionPane.showMessageDialog(null, ex.getMessage());
+          }
+        });
         
        
         

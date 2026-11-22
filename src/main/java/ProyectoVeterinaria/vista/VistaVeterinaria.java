@@ -242,7 +242,9 @@ public class VistaVeterinaria extends javax.swing.JFrame {
         return cbRecepcionista;
     }
     
-    
+    public void addAgregarActionListenerRegistrarDueño(ActionListener listener){
+        this.btnRegistrarDueño.addActionListener(listener);
+    }
     
     
     
