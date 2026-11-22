@@ -6,6 +6,7 @@ package ProyectoVeterinaria.vista;
 
 import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
+import javax.swing.JList;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -245,6 +246,37 @@ public class VistaVeterinaria extends javax.swing.JFrame {
     public void addAgregarActionListenerRegistrarDueño(ActionListener listener){
         this.btnRegistrarDueño.addActionListener(listener);
     }
+    
+    // VARIABLES DEL PANEL VACUNAS 
+
+    public JTextField getTxtPrecioVacuna() {
+        return txtPrecioVacuna;
+    }
+
+    public JTextField getTxtVacuna() {
+        return txtVacuna;
+    }
+
+    public void setTxtPrecioVacuna(JTextField txtPrecioVacuna) {
+        this.txtPrecioVacuna = txtPrecioVacuna;
+    }
+
+    public void setTxtVacuna(JTextField txtVacuna) {
+        this.txtVacuna = txtVacuna;
+    }
+
+    public JList<String> getLstVacunasDisponibles() {
+        return lstVacunasDisponibles;
+    }
+
+    public void setLstVacunasDisponibles(JList<String> lstVacunasDisponibles) {
+        this.lstVacunasDisponibles = lstVacunasDisponibles;
+    }
+    
+    public void addAgregarActionListenerRegistrarvacuna(ActionListener listener){
+        this.btnAgregarVacuna.addActionListener(listener);
+    }
+    
     
     
     

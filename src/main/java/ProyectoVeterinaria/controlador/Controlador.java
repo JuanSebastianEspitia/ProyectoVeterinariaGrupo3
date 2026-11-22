@@ -10,7 +10,11 @@ import ProyectoVeterinaria.modelo.Registro;
 import ProyectoVeterinaria.modelo.Veterinario;
 import ProyectoVeterinaria.vista.VistaVeterinaria;
 import javax.swing.JOptionPane;
-
+import ProyectoVeterinaria.modelo.Vacuna;
+import javax.swing.DefaultListModel;
+        
+        
+        
 /**
  *
  * @author JUAN SEBASTIAN
@@ -139,6 +143,37 @@ public class Controlador {
           catch(IllegalArgumentException ex){
               JOptionPane.showMessageDialog(null, ex.getMessage());
           }
+        });
+        
+        this.vistaVeterinaria.addAgregarActionListenerRegistrarvacuna(e -> {
+            try {
+                if (this.vistaVeterinaria.getTxtVacuna().getText().isEmpty() ||
+                    this.vistaVeterinaria.getTxtPrecioVacuna().getText().isEmpty()) {
+                    throw new IllegalArgumentException("ERROR: debe de llenar todos los campos");
+                }
+
+                String nombreVacuna = this.vistaVeterinaria.getTxtVacuna().getText();
+                double precioVacuna = Double.parseDouble(this.vistaVeterinaria.getTxtPrecioVacuna().getText());
+
+                Vacuna vacuna = new Vacuna(precioVacuna, nombreVacuna);
+                this.registro.añadirVacuna(vacuna);
+
+                DefaultListModel<String> modeloLista = new DefaultListModel<>();
+                for (Vacuna v : registro.getVacunas()) {
+                    modeloLista.addElement(v.getNombreVacuna()+ " - $" + (int) v.getValorVacuna());
+                }
+                this.vistaVeterinaria.getLstVacunasDisponibles().setModel(modeloLista);
+
+                this.vistaVeterinaria.getTxtVacuna().setText("");
+                this.vistaVeterinaria.getTxtPrecioVacuna().setText("");
+
+                JOptionPane.showMessageDialog(null, "VACUNA " + vacuna.getNombreVacuna().toUpperCase() + " FUE AGREGADA CORRECTAMENTE");
+
+            } catch (NumberFormatException errorNumero) {
+                JOptionPane.showMessageDialog(null, "ERROR: el precio debe ser un número válido");
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
         });
         
        
