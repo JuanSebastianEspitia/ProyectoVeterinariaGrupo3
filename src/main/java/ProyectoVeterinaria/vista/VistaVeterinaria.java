@@ -88,7 +88,7 @@ public class VistaVeterinaria extends javax.swing.JFrame {
     }
 
     public String getTxtSueldoRecepcionista() {
-        return txtSueldoRecepcionista.getName();
+        return txtSueldoRecepcionista.getText();
     }
 
     public void setTxtSueldoRecepcionista(String txtSueldoRecepcionista) {
