@@ -13,29 +13,29 @@ import java.time.LocalDate;
 public class Cita {
     private LocalDate fecha;
     private String hora;
-    private Veterinario veterinario;
     private Mascota mascota;
     private Dueño dueño;
 
-    public Cita(LocalDate fecha, String hora, Veterinario veterinario, Mascota mascota, Dueño dueño) {
+    public Cita(LocalDate fecha, String hora,  Mascota mascota, Dueño dueño) {
         this.fecha = fecha;
         this.hora = hora;
-        this.veterinario = veterinario;
         this.mascota = mascota;
         this.dueño = dueño;
     }
 
-    public LocalDate getFecha() {
-        return fecha;
+    
+
+    public String getFecha() {
+        return String.valueOf(fecha.getYear())+"/"+String.valueOf(fecha.getMonth())+"/"+String.valueOf(fecha.getDayOfMonth());
     }
+    
+    
 
     public String getHora() {
         return hora;
     }
 
-    public Veterinario getVeterinario() {
-        return veterinario;
-    }
+    
 
     public Mascota getMascota() {
         return mascota;

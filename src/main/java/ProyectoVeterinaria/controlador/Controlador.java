@@ -4,6 +4,7 @@
  */
 package ProyectoVeterinaria.controlador;
 
+import ProyectoVeterinaria.modelo.Cita;
 import ProyectoVeterinaria.modelo.Dueño;
 import ProyectoVeterinaria.modelo.Mascota;
 import ProyectoVeterinaria.modelo.MascotaConvencional;
@@ -14,6 +15,12 @@ import ProyectoVeterinaria.modelo.Veterinario;
 import ProyectoVeterinaria.vista.VistaVeterinaria;
 import javax.swing.JOptionPane;
 import ProyectoVeterinaria.modelo.Vacuna;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.Comparator;
+import java.util.Date;
 import javax.swing.DefaultListModel;
         
         
@@ -284,5 +291,49 @@ public class Controlador {
         JOptionPane.showMessageDialog(null, ex.getMessage());
     }
         });
+        
+    
+        this.vistaVeterinaria.addActionListenerAgendarCita(e->{
+            try{
+                if (registro.getVeterinarios().isEmpty()) {
+                    JOptionPane.showMessageDialog(null,"ERROR: No hay veterinarios registrados. "+ "No es posible agendar una cita.");
+                }else{
+                   Date fechaSpinner=(Date) this.vistaVeterinaria.getSpnFechaCita().getValue();
+                   LocalDate fecha=fechaSpinner.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                   
+                   String hora=this.vistaVeterinaria.getCbHoraCita().getSelectedItem().toString();
+                   
+                   Dueño dueño=null;
+                   Mascota mascota=null;
+                   
+                   for(Dueño d: registro.getDueños()){
+                       if(this.vistaVeterinaria.getCbDueñoHorario().getSelectedItem().toString().toLowerCase().contains(d.getDocumento().toLowerCase()))
+                       for(Mascota m: d.getMascotas()){
+                       if(this.vistaVeterinaria.getCbMascotaHorario().getSelectedItem().toString().toLowerCase().contains(m.getNombre().toLowerCase()))
+                           dueño=d;
+                           mascota=m;
+                           break;
+                           }
+                   }
+                   Cita cita=new Cita(fecha,hora,mascota,dueño);
+                   
+                   registro.añadirCita(cita);
+                   registro.getCitas().sort(Comparator.comparing(Cita::getFecha).thenComparing(Cita::getHora));
+                   this.vistaVeterinaria.getCbCita().removeAllItems();
+                   for(Cita c: registro.getCitas()){
+                       this.vistaVeterinaria.getCbCita().addItem(c.getFecha()+" "+c.getHora()+"- DUEÑO: "+c.getDueño().getNombre()+"- MASCOTA: "+c.getMascota().getNombre());
+                   }
+                   JOptionPane.showMessageDialog(null, "SE AGENDO UNA CITA PARA LA MASCOTA " +cita.getMascota().getNombre() + 
+                           "\n DE DUEÑO: "+cita.getDueño().getNombre()+"\n PARA LA FECHA "+cita.getFecha()+" Y HORA"+cita.getHora());
+                }
+            }catch(NumberFormatException err){
+                
+            }catch(IllegalArgumentException error){
+                
+            }
+        });
+        
+        
+        
     }
 }

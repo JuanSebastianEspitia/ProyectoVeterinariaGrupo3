@@ -10,6 +10,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JList;
+import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -38,11 +39,12 @@ public class VistaVeterinaria extends javax.swing.JFrame {
         this.txtVacuna.setEnabled(true);
        this.txtCitesMascota.setEnabled(false);
        this.txtRazaMascota.setEnabled(true);
+       
         
     }
 
     
-    //HABILITAR CAMPOS SI ES CONVENCIONAL O EXOTICA
+    //HABILITAR CAMPOS
     
     public void habilitarConvencional(){
         this.txtaVacunasMascota.setEnabled(true);
@@ -58,6 +60,8 @@ public class VistaVeterinaria extends javax.swing.JFrame {
         this.txtaVacunasMascota.setEnabled(false);
         this.txtaVacunasMascota.setText("");
     }
+    
+    
     //VARIABLES DEL PANEL EMPLEADOS
 
     public String getTxtCorreoRecepcionista() {
@@ -277,10 +281,21 @@ public class VistaVeterinaria extends javax.swing.JFrame {
     public JComboBox<String> getCbTipoMascota() {
         return cbTipoMascota;
     }
+
+    public JSpinner getSpnFechaCita() {
+        return spnFechaCita;
+    }
+    
+    
+    
+    
     public void addActionListenerDueñoHorario(ActionListener listener){
         this.cbDueñoHorario.addActionListener(listener);
     }
     
+    public void addActionListenerAgendarCita(ActionListener listener){
+        this.btnRegistrarCita.addActionListener(listener);
+    }
     
     
     public void addAgregarActionListenerRegistrarDueño(ActionListener listener){
@@ -293,6 +308,8 @@ public class VistaVeterinaria extends javax.swing.JFrame {
     public void addAgregarActionListenerRegistrarMascota(ActionListener listener){
         this.btnRegistrarMascota.addActionListener(listener);
     }
+    
+    
     
     
     // VARIABLES DEL PANEL VACUNAS 
@@ -1184,7 +1201,7 @@ public class VistaVeterinaria extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 607, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
 
         pack();

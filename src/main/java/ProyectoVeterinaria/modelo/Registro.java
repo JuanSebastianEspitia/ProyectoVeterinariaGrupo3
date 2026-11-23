@@ -16,12 +16,14 @@ public class Registro {
     private List<Dueño> dueños;
     private List<Veterinario> veterinarios;
     private List<Vacuna> vacunas;
+    private List<Cita> citas;
 
     public Registro() {
         this.recepcionistas=new ArrayList<>();
         this.dueños=new ArrayList<>();
         this.veterinarios=new ArrayList<>();
         this.vacunas=new ArrayList<>();
+        this.citas=new ArrayList<>();
     }
 
     public List<Recepcionista> getRecepcionistas() {
@@ -39,6 +41,10 @@ public class Registro {
     public List<Vacuna> getVacunas() {
         return vacunas;
     }
+
+    public List<Cita> getCitas() {
+        return citas;
+    }
     
     public void añadirVeterinario(Veterinario veterinario){
         this.veterinarios.add(veterinario);
@@ -54,5 +60,9 @@ public class Registro {
     
     public void añadirVacuna(Vacuna vacuna){
         this.vacunas.add(vacuna);
+    }
+    
+    public void añadirCita(Cita cita){
+        this.citas.add(cita);
     }
 }
