@@ -5,6 +5,8 @@
 package ProyectoVeterinaria.controlador;
 
 import ProyectoVeterinaria.modelo.Cita;
+import ProyectoVeterinaria.modelo.ComprobantePago;
+import ProyectoVeterinaria.modelo.ConsultaMedica;
 import ProyectoVeterinaria.modelo.Dueño;
 import ProyectoVeterinaria.modelo.Mascota;
 import ProyectoVeterinaria.modelo.MascotaConvencional;
@@ -19,6 +21,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import javax.swing.DefaultListModel;
@@ -309,11 +312,12 @@ public class Controlador {
                    for(Dueño d: registro.getDueños()){
                        if(this.vistaVeterinaria.getCbDueñoHorario().getSelectedItem().toString().toLowerCase().contains(d.getDocumento().toLowerCase()))
                        for(Mascota m: d.getMascotas()){
-                       if(this.vistaVeterinaria.getCbMascotaHorario().getSelectedItem().toString().toLowerCase().contains(m.getNombre().toLowerCase()))
+                       if(this.vistaVeterinaria.getCbMascotaHorario().getSelectedItem().toString().toLowerCase().contains(m.getNombre().toLowerCase())){
                            dueño=d;
                            mascota=m;
                            break;
                            }
+                       }
                    }
                    Cita cita=new Cita(fecha,hora,mascota,dueño);
                    
@@ -333,6 +337,111 @@ public class Controlador {
             }
         });
         
+        this.vistaVeterinaria.addActionListenerCita(e->{
+            int indiceCita=this.vistaVeterinaria.getCbCita().getSelectedIndex();
+          boolean esExotica=false;
+         if(indiceCita>=0){
+            Cita cita=this.registro.getCitasPendientes().get(indiceCita);
+            esExotica=cita.getMascota() instanceof MascotaExotica;
+            }
+            this.vistaVeterinaria.mostrarVacunasAplicadas(!esExotica);
+        });
+        this.vistaVeterinaria.addActionListenerGenerarConsulta(e->{
+    try{
+        int indiceVeterinario=this.vistaVeterinaria.getCbVeterinario().getSelectedIndex();
+        int indiceCita=this.vistaVeterinaria.getCbCita().getSelectedIndex();
+        if(indiceVeterinario<0)
+            throw new IllegalArgumentException("ERROR: debe seleccionar un veterinario");
+        if(indiceCita<0)
+            throw new IllegalArgumentException("ERROR: no hay citas pendientes para atender");
+
+        if(this.vistaVeterinaria.getTxtTratamientoAplicado().isEmpty()||
+           this.vistaVeterinaria.getTxtaDiagnostico().isEmpty())
+            throw new IllegalArgumentException("ERROR: debe de completar todos los campos");
+
+        Veterinario veterinario=this.registro.getVeterinarios().get(indiceVeterinario);
+        Cita cita=this.registro.getCitasPendientes().get(indiceCita);
+        String tratamientoAplicado=this.vistaVeterinaria.getTxtTratamientoAplicado();
+        String diagnostico=this.vistaVeterinaria.getTxtaDiagnostico();
+        boolean sedacion=this.vistaVeterinaria.isSedacionSeleccionada();
+
+        ArrayList<Vacuna> vacunasAplicadas=new ArrayList<>();
+        for(int i: this.vistaVeterinaria.getLstVacunasAplicadas().getSelectedIndices()){
+            vacunasAplicadas.add(this.registro.getVacunas().get(i));
+        }
+
+        ConsultaMedica consulta=veterinario.generarConsultaMedica(LocalDateTime.now(),diagnostico,tratamientoAplicado,vacunasAplicadas,"",veterinario,cita,sedacion);
+        cita.getMascota().getHistorialClinico().agregarConsulta(consulta);
+        cita.marcarAtendida();
+        this.registro.añadirConsulta(consulta);
+
+        this.vistaVeterinaria.getCbCita().removeAllItems();
+        for(Cita c: registro.getCitasPendientes()){
+            this.vistaVeterinaria.getCbCita().addItem(c.getFecha()+" "+c.getHora()+"- DUEÑO: "+c.getDueño().getNombre()+"- MASCOTA: "+c.getMascota().getNombre());
+        }
+        this.vistaVeterinaria.getCbCitasAtendidas().removeAllItems();
+        for(ConsultaMedica c: registro.getConsultasSinFacturar()){
+            this.vistaVeterinaria.getCbCitasAtendidas().addItem(c.getCita().getFecha()+" "+c.getCita().getHora()+"- DUEÑO: "+c.getCita().getDueño().getNombre()+"- MASCOTA: "+c.getCita().getMascota().getNombre());
+        }
+
+        this.vistaVeterinaria.setTxtTratamientoAplicado("");
+        this.vistaVeterinaria.setTxtaDiagnostico("");
+        this.vistaVeterinaria.setSedacionSeleccionada(false);
+        this.vistaVeterinaria.limpiarVacunasAplicadas();
+        JOptionPane.showMessageDialog(null, "CONSULTA GENERADA PARA LA MASCOTA "+cita.getMascota().getNombre().toUpperCase()+"\n LA CITA FUÉ ATENDIDA");
+    }catch(IllegalArgumentException ex){
+        JOptionPane.showMessageDialog(null, ex.getMessage());
+    }
+});
+        this.vistaVeterinaria.addActionListenerVerHistorialClinico(e->{
+    try{
+        int indiceDueño=this.vistaVeterinaria.getCbDueñoHistorialClinico().getSelectedIndex();
+        int indiceMascota=this.vistaVeterinaria.getCbMascotaHistorialClinico().getSelectedIndex();
+        if(indiceDueño<0||indiceMascota<0)
+            throw new IllegalArgumentException("ERROR: debe seleccionar un dueño y una mascota");
+
+        Mascota mascota=this.registro.getDueños().get(indiceDueño).getMascotas().get(indiceMascota);
+        if(mascota.getHistorialClinico().obtenerConsultas().isEmpty())
+            throw new IllegalArgumentException("ERROR: "+mascota.getNombre().toUpperCase()+" aún no tiene consultas");
+
+        String historial="";
+        int numeroConsulta=1;
+        for(ConsultaMedica c: mascota.getHistorialClinico().obtenerConsultas()){
+            historial+="CONSULTA #"+numeroConsulta+"\n"+c.mostrarConsulta()+"\n\n-----------------------------------\n\n";
+            numeroConsulta++;
+        }
+        this.vistaVeterinaria.mostrarTexto("HISTORIAL CLÍNICO DE "+mascota.getNombre().toUpperCase(),historial);
+    }catch(IllegalArgumentException ex){
+        JOptionPane.showMessageDialog(null, ex.getMessage());
+    }
+});
+        
+        this.vistaVeterinaria.addActionListenerGenerarFactura(e->{
+    try{
+        int indiceConsulta=this.vistaVeterinaria.getCbCitasAtendidas().getSelectedIndex();
+        if(indiceConsulta<0)
+            throw new IllegalArgumentException("ERROR: no hay citas atendidas para facturar");
+
+        ConsultaMedica consulta=this.registro.getConsultasSinFacturar().get(indiceConsulta);
+        float totalSinDescuentos=consulta.obtenerTotalSinDescuentos();
+
+        ComprobantePago comprobante=new ComprobantePago("FAC-"+(this.registro.getConsultas().indexOf(consulta)+1),
+                consulta,
+                consulta.getCita().getMascota().getValorBase(),
+                consulta.obtenerRecargoExotica(),
+                consulta.obtenerDescuento(totalSinDescuentos),
+                consulta.totalTotal());
+        comprobante.obtenerComprobante();
+
+        consulta.marcarFacturada();
+        this.vistaVeterinaria.getCbCitasAtendidas().removeAllItems();
+        for(ConsultaMedica c: registro.getConsultasSinFacturar()){
+            this.vistaVeterinaria.getCbCitasAtendidas().addItem(c.getCita().getFecha()+" "+c.getCita().getHora()+"- DUEÑO: "+c.getCita().getDueño().getNombre()+"- MASCOTA: "+c.getCita().getMascota().getNombre());
+        }
+    }catch(IllegalArgumentException ex){
+        JOptionPane.showMessageDialog(null, ex.getMessage());
+    }
+});
         
         
     }

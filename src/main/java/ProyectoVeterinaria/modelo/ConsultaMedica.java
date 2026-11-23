@@ -22,7 +22,10 @@ public class ConsultaMedica {
     private String notasMedicas;
     private Veterinario veterinario;
     private Cita cita;
+    private boolean facturada;
 
+
+    
     public ConsultaMedica(LocalDateTime fecha,String diagnostico, String tratamientoAplicado, ArrayList<Vacuna> vacunasAplicadas, String notasMedicas, Veterinario veterinario, Cita cita, boolean sedacion) {
         this.fecha = fecha;
         this.diagnostico = diagnostico;
@@ -132,17 +135,19 @@ public class ConsultaMedica {
     
     
     public String obtenerVacunas(){
-        String mensaje="NO";
-        for (Vacuna v : this.vacunasAplicadas) {
-           mensaje+="\n"+v.getNombreVacuna()+" $"+v.getValorVacuna();
-        }
-        return mensaje;
+    if(this.vacunasAplicadas.isEmpty())
+        return "NINGUNA";
+    String mensaje="";
+    for (Vacuna v : this.vacunasAplicadas) {
+        mensaje+="\n    - "+v.getNombreVacuna()+" $"+(int) v.getValorVacuna();
     }
+    return mensaje;
+}
     
     public String mostrarConsulta(){
         String mensaje="";
         
-        mensaje="\n FECHA DE LA CONSULTA: "+this.fecha.toString()+
+        mensaje="\n FECHA DE LA CONSULTA: "+this.cita.getFecha()+" "+this.cita.getHora()+
                 "\n DATOS DEL DUEÑO: "+this.cita.getDueño().getNombre()+"-"+this.cita.getDueño().getDocumento()+"-"+this.cita.getDueño().getTelefono()+"-"+this.cita.getDueño().getCorreo()+
                 "\n DATOS DE LA MASCOTA: "+this.cita.getMascota().getNombre()+"-"+this.cita.getMascota().getPeso()+" Kg-"+this.cita.getMascota().getEdad()+" Años -"+this.cita.getMascota().getGenero()+
                 "\n VETERINARIO:"+this.veterinario.getNombre()+
@@ -154,4 +159,11 @@ public class ConsultaMedica {
         return mensaje;
     }
     
+    public boolean isFacturada() {
+        return facturada;
+    }
+
+    public void marcarFacturada() {
+        this.facturada = true;
+    }
 }

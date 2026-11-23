@@ -10,6 +10,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -28,6 +29,9 @@ public class VistaVeterinaria extends javax.swing.JFrame {
     
     public VistaVeterinaria() {
         initComponents();
+        this.cbHoraCita.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
+    "08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00",
+    "12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30" }));
         this.txtaDiagnostico.setLineWrap(true);
         this.txtaDiagnostico.setWrapStyleWord(true);
         this.txtaVacunasMascota.setLineWrap(true);
@@ -374,7 +378,63 @@ public class VistaVeterinaria extends javax.swing.JFrame {
         this.cbDueñoHistorialClinico.addActionListener(listener);
     }
     
+    public String getTxtTratamientoAplicado() {
+        return txtTratamientoAplicado.getText();
+}
+
+    public void setTxtTratamientoAplicado(String texto) {
+        this.txtTratamientoAplicado.setText(texto);
+    }
+
+    public String getTxtaDiagnostico() {
+        return txtaDiagnostico.getText();
+    }
+
+    public void setTxtaDiagnostico(String texto) {
+        this.txtaDiagnostico.setText(texto);
+    }
+
+    public boolean isSedacionSeleccionada() {
+        return chbSedacion.isSelected();
+    }
+
+    public void setSedacionSeleccionada(boolean seleccionada) {
+        this.chbSedacion.setSelected(seleccionada);
+    }
+
+    public void limpiarVacunasAplicadas() {
+        this.lstVacunasAplicadas.clearSelection();
+    }
+
+    public void mostrarVacunasAplicadas(boolean visible){
+        this.jScrollPane3.setVisible(visible);
+        this.jLabel45.setVisible(visible);
+        if(!visible)
+            this.lstVacunasAplicadas.clearSelection();
+    }   
+
+    public void addActionListenerCita(ActionListener listener){
+        this.cbCita.addActionListener(listener);
+    }
     
+    public void addActionListenerGenerarConsulta(ActionListener listener){
+        this.btnGenerarConsulta.addActionListener(listener);
+    }
+
+    public void addActionListenerVerHistorialClinico(ActionListener listener){
+        this.btnVerHistorialClinico.addActionListener(listener);
+    }
+
+    public void addActionListenerGenerarFactura(ActionListener listener){
+        this.btGenerarFactura.addActionListener(listener);
+    }
+    public void mostrarTexto(String titulo, String texto){
+    JTextArea area = new JTextArea(texto, 20, 50);
+    area.setEditable(false);
+    area.setLineWrap(true);
+    area.setWrapStyleWord(true);
+    JOptionPane.showMessageDialog(this, new javax.swing.JScrollPane(area), titulo, JOptionPane.INFORMATION_MESSAGE);
+    }
     
     
     @SuppressWarnings("unchecked")

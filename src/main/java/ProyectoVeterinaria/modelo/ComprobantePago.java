@@ -55,7 +55,7 @@ public class ComprobantePago {
     
     
     public void obtenerComprobante(){
-        JOptionPane.showMessageDialog(null, "COMPROBANTE DE PAGO /n"+
+        JOptionPane.showMessageDialog(null, "COMPROBANTE DE PAGO \n"+
                 this.getIdComprobante()+
                 "\n -----------------------------------"+
                 "\n MASCOTA:"+this.getConsulta().getCita().getMascota().getNombre()+ "\n"+

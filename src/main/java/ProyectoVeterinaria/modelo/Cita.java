@@ -15,6 +15,7 @@ public class Cita {
     private String hora;
     private Mascota mascota;
     private Dueño dueño;
+    private boolean atendida;
 
     public Cita(LocalDate fecha, String hora,  Mascota mascota, Dueño dueño) {
         this.fecha = fecha;
@@ -45,6 +46,14 @@ public class Cita {
         return dueño;
     }
     
+
+    public boolean isAtendida() {
+        return atendida;
+    }
+
+    public void marcarAtendida() {
+        this.atendida = true;
+    }
     
     
 }

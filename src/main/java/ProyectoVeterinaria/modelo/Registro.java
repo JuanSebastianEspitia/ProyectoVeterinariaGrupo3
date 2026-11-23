@@ -17,6 +17,7 @@ public class Registro {
     private List<Veterinario> veterinarios;
     private List<Vacuna> vacunas;
     private List<Cita> citas;
+    private List<ConsultaMedica> consultas;
 
     public Registro() {
         this.recepcionistas=new ArrayList<>();
@@ -24,6 +25,16 @@ public class Registro {
         this.veterinarios=new ArrayList<>();
         this.vacunas=new ArrayList<>();
         this.citas=new ArrayList<>();
+        this.consultas = new ArrayList<>();
+    }
+    
+    public List<ConsultaMedica> getConsultas(){
+        return consultas;
+    }
+    
+    public void añadirConsulta(ConsultaMedica consulta) 
+    { 
+        this.consultas.add(consulta);
     }
 
     public List<Recepcionista> getRecepcionistas() {
@@ -64,5 +75,21 @@ public class Registro {
     
     public void añadirCita(Cita cita){
         this.citas.add(cita);
+    }
+
+    public List<Cita> getCitasPendientes() {  
+        List<Cita> pendientes = new ArrayList<>();
+            for (Cita c : citas) {
+            if (!c.isAtendida()) pendientes.add(c);
+            }
+        return pendientes;
+    }
+    
+    public List<ConsultaMedica> getConsultasSinFacturar() {
+        List<ConsultaMedica> sinFacturar = new ArrayList<>();
+            for (ConsultaMedica c : consultas) {
+            if (!c.isFacturada()) sinFacturar.add(c);
+            }
+        return sinFacturar;
     }
 }
