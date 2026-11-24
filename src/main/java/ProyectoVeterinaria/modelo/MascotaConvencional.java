@@ -12,7 +12,7 @@ import java.util.List;
  * @author maikol
  */
 public class MascotaConvencional extends Mascota {
-    private String raza;
+        private String raza;
     private List<Vacuna> registroVacunas;
 
     public MascotaConvencional(String raza, String nombre, String edad, String peso, String genero) {
@@ -24,19 +24,27 @@ public class MascotaConvencional extends Mascota {
     @Override
     public float calcularPago() {
     float totalMascota;
-    totalMascota=this.getValorBase() + this.getHistorialClinico().obtenerConsultas().getLast().calcularValorBiologico();
+    totalMascota=this.getValorBase();
         return totalMascota;
 }
-    public void registrarVacuna(Vacuna vacuna){
-        registroVacunas.add(vacuna);
+    public void registrarVacuna(String vacuna){
+        Vacuna v=new Vacuna(0,vacuna);
+        registroVacunas.add(v);
     }
     public String getRaza() {
         return raza;
     }
 
-    public List<Vacuna> getRegistroVacunas() {
-        return registroVacunas;
+    public String getRegistroVacunas() {
+        String mensaje="";
+        if(this.registroVacunas.isEmpty())
+            mensaje="NINGUNA";
+        for(Vacuna v:this.registroVacunas){
+            mensaje+="\n -"+v.getNombreVacuna();
+        }
+        return mensaje;
     }
     
 }
+
 

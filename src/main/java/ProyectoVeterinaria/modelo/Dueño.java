@@ -12,7 +12,7 @@ import java.util.List;
  * @author JUAN SEBASTIAN
  */
 public class Dueño extends Persona {
-    private List<Mascota> mascotas = new ArrayList<>();
+        private List<Mascota> mascotas = new ArrayList<>();
 
     public Dueño(String nombre, String documento, String correo, String telefono) {
         super(nombre, documento, correo, telefono);

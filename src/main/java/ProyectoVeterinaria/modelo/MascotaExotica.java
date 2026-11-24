@@ -22,7 +22,7 @@ public class MascotaExotica extends Mascota {
     
     @Override
     public float calcularPago() {
-       float total = this.getValorBase() +this.recargoExotica;
+       float total = this.getValorBase() +this.obtenerRecargoExotica();
     return total;
 }
     

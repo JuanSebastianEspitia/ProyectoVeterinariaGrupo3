@@ -12,8 +12,8 @@ import java.util.ArrayList;
  * @author JUAN SEBASTIAN
  */
 public class ConsultaMedica {
-    
-    private int costoSedacion = 4000;
+      
+    private int costoSedacion;
     private boolean requiereSedacion;
     private LocalDateTime fecha;
     private String diagnostico;
@@ -66,11 +66,14 @@ public class ConsultaMedica {
     }
 
     public int getCostoSedacion() {
+       this.costoSedacion=0;
+        if(requiereSedacion)
+            this.costoSedacion=4000;
         return costoSedacion;
     }
     
     public String obtenerCostoSedacion(){
-        return String.valueOf(costoSedacion);
+        return String.valueOf(this.getCostoSedacion());
     }
     
     public String requirioSedacion(){
@@ -101,8 +104,8 @@ public class ConsultaMedica {
     public float obtenerTotalSinDescuentos(){
         float total=0;
         total=this.cita.getMascota().calcularPago();
-        if(requiereSedacion)
-            total+=this.getCostoSedacion();
+        total += this.getCostoSedacion();
+        total+=this.calcularValorBiologico();
         return total;
     }
     
@@ -118,7 +121,7 @@ public class ConsultaMedica {
     public float obtenerDescuento(float totalSinDescuentos){
         float totalConDescuentos=0;
         if(this.cita.getDueño().tieneDescuento()){
-        totalConDescuentos=totalSinDescuentos*0.1f;
+        totalConDescuentos=totalSinDescuentos*0.10f;
         }
         return totalConDescuentos;
     }
@@ -144,7 +147,7 @@ public class ConsultaMedica {
     return mensaje;
 }
     
-    public String mostrarConsulta(){
+    public String mostrarConsulta(boolean esPrimeraConsulta){
         String mensaje="";
         
         mensaje="\n FECHA DE LA CONSULTA: "+this.cita.getFecha()+" "+this.cita.getHora()+
@@ -155,7 +158,10 @@ public class ConsultaMedica {
                 "\n APLICACIÓN DE SEDACIÓN: "+this.requirioSedacion()+
                 "\n VACUNAS: "+this.obtenerVacunas();
                 
-                
+                if(esPrimeraConsulta && this.cita.getMascota() instanceof MascotaConvencional){
+                    MascotaConvencional mascota=(MascotaConvencional) this.cita.getMascota();
+                    mensaje+="\n VACUNAS INICIALES: "+mascota.getRegistroVacunas();
+                }
         return mensaje;
     }
     

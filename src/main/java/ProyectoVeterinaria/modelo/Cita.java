@@ -11,7 +11,7 @@ import java.time.LocalDate;
  * @author JUAN SEBASTIAN
  */
 public class Cita {
-    private LocalDate fecha;
+     private LocalDate fecha;
     private String hora;
     private Mascota mascota;
     private Dueño dueño;
@@ -27,7 +27,7 @@ public class Cita {
     
 
     public String getFecha() {
-        return String.valueOf(fecha.getYear())+"/"+String.valueOf(fecha.getMonth())+"/"+String.valueOf(fecha.getDayOfMonth());
+        return String.valueOf(fecha.getYear())+"/"+String.valueOf(fecha.getMonthValue())+"/"+String.valueOf(fecha.getDayOfMonth());
     }
     
     
@@ -54,6 +54,5 @@ public class Cita {
     public void marcarAtendida() {
         this.atendida = true;
     }
-    
     
 }

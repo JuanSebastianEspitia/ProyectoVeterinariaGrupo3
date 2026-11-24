@@ -11,7 +11,6 @@ import javax.swing.JOptionPane;
  * @author JUAN SEBASTIAN
  */
 public class ComprobantePago {
-    
     private String idComprobante;
     private ConsultaMedica consulta;
     private float subtotalBase;
@@ -55,24 +54,26 @@ public class ComprobantePago {
     
     
     public void obtenerComprobante(){
-        JOptionPane.showMessageDialog(null, "COMPROBANTE DE PAGO \n"+
-                this.getIdComprobante()+
-                "\n -----------------------------------"+
-                "\n MASCOTA:"+this.getConsulta().getCita().getMascota().getNombre()+ "\n"+
-                "\n DUEÑO:" +this.getConsulta().getCita().getDueño().getNombre()+"\n"+
-                "\n CORREO: "+this.getConsulta().getCita().getDueño().getCorreo()+"\n"+
-                "\n TELEFONO: "+this.getConsulta().getCita().getDueño().getTelefono()+"\n"+
-                "\n DOCUMENTO: "+this.getConsulta().getCita().getDueño().getDocumento()+"\n"+
-                "\n -----------------------------------"+
-                "\n COSTO BASE: $"+this.getConsulta().getCita().getMascota().obtenerValorBase()+
-                "\n RECARGO EXOTICA: "+this.getConsulta().obtenerRecargoExotica()
-                +"\n VACUNAS: "+
-                "   \n"+this.getConsulta().obtenerVacunas()+"\n"+
-                    "\n TOTAL VACUNAS: $"+this.getConsulta().calcularValorBiologico()+
-                "\n SEDACIÓN: $"+this.getConsulta().obtenerCostoSedacion()+"\n"+
-                "\n DESCUENTO POR 2 MASCOTAS: $"+this.getConsulta().obtenerDescuento(descuentos)+"\n"+
-                "\n -----------------------------------"+
-                "\n TOTAL: $"+this.getConsulta().obtenerTotalTotal());
+        JOptionPane.showMessageDialog(null,  "COMPROBANTE DE PAGO \n"+
+            this.getIdComprobante()+
+            "\n -----------------------------------"+
+            "\n MASCOTA: "+this.getConsulta().getCita().getMascota().getNombre()+
+            "\n DUEÑO: "+this.getConsulta().getCita().getDueño().getNombre()+
+            "\n CORREO: "+this.getConsulta().getCita().getDueño().getCorreo()+
+            "\n TELEFONO: "+this.getConsulta().getCita().getDueño().getTelefono()+
+            "\n DOCUMENTO: "+this.getConsulta().getCita().getDueño().getDocumento()+
+            "\n -----------------------------------"+
+            "\n COSTO BASE: $"+this.getSubtotalBase()+
+            "\n RECARGO EXOTICA (25%): $"+this.getRecargos()+
+            "\n VACUNAS: "+
+            "\n "+this.getConsulta().obtenerVacunas()+
+            "\n TOTAL VACUNAS: $"+this.getConsulta().calcularValorBiologico()+
+            "\n SEDACIÓN: $"+this.getConsulta().obtenerCostoSedacion()+
+            "\n DESCUENTO POR MAS DE DOS MASCOTAS (10%): $"+this.consulta.obtenerDescuento(this.getConsulta().obtenerTotalSinDescuentos())+
+            "\n -----------------------------------"+
+            "\n TOTAL: $"+this.getConsulta().obtenerTotalTotal());
     }
 }
+
+
 

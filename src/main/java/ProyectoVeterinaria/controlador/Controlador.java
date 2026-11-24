@@ -45,6 +45,7 @@ public class Controlador {
     
     public void iniciar(){
         
+          
         this.vistaVeterinaria.addAgregarActionListenerRegistrarRecepcionista(e->{
             try{
             if(this.vistaVeterinaria.getTxtCorreoRecepcionista().isEmpty()||
@@ -248,20 +249,29 @@ public class Controlador {
         String edad=this.vistaVeterinaria.getTxtEdadMascota();
         String peso=this.vistaVeterinaria.getTxtPesoMascota();
         String genero=this.vistaVeterinaria.getCbGeneroMascota().getSelectedItem().toString();
-
+        String vacunas = this.vistaVeterinaria.getTxtaVacunasMascota();
         
         Mascota mascota;
+
         String tipo = this.vistaVeterinaria.getCbTipoMascota().getSelectedItem().toString();
 
         if (tipo.equalsIgnoreCase("convencional")) {
             String raza = this.vistaVeterinaria.getTxtRazaMascota();
             
             mascota = new MascotaConvencional(raza, nombre, edad, peso, genero);
+            
+        
         } else {
             String cites = this.vistaVeterinaria.getTxtCitesMascota();
             mascota = new MascotaExotica(cites, nombre, edad, peso, genero);
         }
+                for (String vacuna : vacunas.split("\\R")) {
+    if (!vacuna.trim().isEmpty()) {
+        MascotaConvencional mascotaC=(MascotaConvencional) mascota;
+        mascotaC.registrarVacuna(vacuna);
         
+    }
+}
         Dueño dueño = this.registro.getDueños().get(indiceDueño);
         dueño.agregarMascota(mascota);
             this.vistaVeterinaria.getCbMascotaHorario().removeAllItems();
@@ -324,7 +334,7 @@ public class Controlador {
                    registro.añadirCita(cita);
                    registro.getCitas().sort(Comparator.comparing(Cita::getFecha).thenComparing(Cita::getHora));
                    this.vistaVeterinaria.getCbCita().removeAllItems();
-                   for(Cita c: registro.getCitas()){
+                   for(Cita c: registro.getCitasPendientes()){
                        this.vistaVeterinaria.getCbCita().addItem(c.getFecha()+" "+c.getHora()+"- DUEÑO: "+c.getDueño().getNombre()+"- MASCOTA: "+c.getMascota().getNombre());
                    }
                    JOptionPane.showMessageDialog(null, "SE AGENDO UNA CITA PARA LA MASCOTA " +cita.getMascota().getNombre() + 
@@ -346,6 +356,11 @@ public class Controlador {
             }
             this.vistaVeterinaria.mostrarVacunasAplicadas(!esExotica);
         });
+        
+        
+        
+        
+        
         this.vistaVeterinaria.addActionListenerGenerarConsulta(e->{
     try{
         int indiceVeterinario=this.vistaVeterinaria.getCbVeterinario().getSelectedIndex();
@@ -364,7 +379,6 @@ public class Controlador {
         String tratamientoAplicado=this.vistaVeterinaria.getTxtTratamientoAplicado();
         String diagnostico=this.vistaVeterinaria.getTxtaDiagnostico();
         boolean sedacion=this.vistaVeterinaria.isSedacionSeleccionada();
-
         ArrayList<Vacuna> vacunasAplicadas=new ArrayList<>();
         for(int i: this.vistaVeterinaria.getLstVacunasAplicadas().getSelectedIndices()){
             vacunasAplicadas.add(this.registro.getVacunas().get(i));
@@ -407,7 +421,7 @@ public class Controlador {
         String historial="";
         int numeroConsulta=1;
         for(ConsultaMedica c: mascota.getHistorialClinico().obtenerConsultas()){
-            historial+="CONSULTA #"+numeroConsulta+"\n"+c.mostrarConsulta()+"\n\n-----------------------------------\n\n";
+            historial+="CONSULTA #"+numeroConsulta+"\n"+c.mostrarConsulta(mascota.getHistorialClinico().obtenerConsultas().indexOf(c)==0)+"\n\n-----------------------------------------------------------\n\n";
             numeroConsulta++;
         }
         this.vistaVeterinaria.mostrarTexto("HISTORIAL CLÍNICO DE "+mascota.getNombre().toUpperCase(),historial);

@@ -9,7 +9,7 @@ package ProyectoVeterinaria.modelo;
  * @author acer
  */
 public class Recepcionista extends Trabajador {
-    
+      
     private static final float descuentoDueño = 0.10f;
     
     public Recepcionista(float sueldo, String nombre, String documento, String correo, String telefono) {

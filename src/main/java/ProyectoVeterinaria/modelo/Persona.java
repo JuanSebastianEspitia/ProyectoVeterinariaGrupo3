@@ -9,7 +9,7 @@ package ProyectoVeterinaria.modelo;
  * @author acer
  */
 public class Persona {
-    private String nombre;
+      private String nombre;
     private String documento;
     private String correo;
     private String telefono;

@@ -9,7 +9,7 @@ package ProyectoVeterinaria.modelo;
  * @author ASUS
  */
 public class Trabajador extends Persona{
-    private float sueldo;
+      private float sueldo;
 
     public Trabajador(float sueldo, String nombre, String documento, String correo, String telefono) {
         super(nombre, documento, correo, telefono);

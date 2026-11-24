@@ -12,7 +12,7 @@ import java.util.List;
  * @author ASUS
  */
 public class Registro {
-    private List<Recepcionista> recepcionistas;
+  private List<Recepcionista> recepcionistas;
     private List<Dueño> dueños;
     private List<Veterinario> veterinarios;
     private List<Vacuna> vacunas;
@@ -92,4 +92,5 @@ public class Registro {
             }
         return sinFacturar;
     }
-}
+   }
+

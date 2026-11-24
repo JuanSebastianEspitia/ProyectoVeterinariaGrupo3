@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author ASUS
  */
 public class Veterinario extends Trabajador{
-    private String especialidad;
+     private String especialidad;
     private String tarjetaProfesional;
 
     public Veterinario(String especialidad, String tarjetaProfesional, String nombre, String documento, String correo, String telefono, float sueldo) {
