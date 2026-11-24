@@ -406,12 +406,12 @@ public class VistaVeterinaria extends javax.swing.JFrame {
         this.lstVacunasAplicadas.clearSelection();
     }
 
-    public void mostrarVacunasAplicadas(boolean visible){
-        this.jScrollPane3.setVisible(visible);
-        this.jLabel45.setVisible(visible);
-        if(!visible)
-            this.lstVacunasAplicadas.clearSelection();
-    }   
+    public void habilitarVacunasAplicadas(boolean habilitado){
+        this.lstVacunasAplicadas.setEnabled(habilitado);
+        this.jLabel45.setEnabled(habilitado);
+            if(!habilitado)
+                this.lstVacunasAplicadas.clearSelection();
+    }
 
     public void addActionListenerCita(ActionListener listener){
         this.cbCita.addActionListener(listener);

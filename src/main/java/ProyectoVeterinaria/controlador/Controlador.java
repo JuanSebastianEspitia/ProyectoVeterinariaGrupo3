@@ -347,15 +347,15 @@ public class Controlador {
             }
         });
         
-        this.vistaVeterinaria.addActionListenerCita(e->{
-            int indiceCita=this.vistaVeterinaria.getCbCita().getSelectedIndex();
-          boolean esExotica=false;
-         if(indiceCita>=0){
+       this.vistaVeterinaria.addActionListenerCita(e->{
+       int indiceCita=this.vistaVeterinaria.getCbCita().getSelectedIndex();
+        boolean esExotica=false;
+            if(indiceCita>=0){
             Cita cita=this.registro.getCitasPendientes().get(indiceCita);
             esExotica=cita.getMascota() instanceof MascotaExotica;
-            }
-            this.vistaVeterinaria.mostrarVacunasAplicadas(!esExotica);
-        });
+        }
+        this.vistaVeterinaria.habilitarVacunasAplicadas(!esExotica);
+    });
         
         
         
